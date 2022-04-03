@@ -1,39 +1,44 @@
-class BookController < ApplicationController
+class BooksController < ApplicationController
+
+  def top
+  end
+
   def new
      @book = Book.new
- end
+  end
 
  def create
-   book = Book.new (book_params)
-   if book.save
-   flash[:success] = "タスクを追加しました。"
-   redirect_to book_path (book.id)
- else
-   flash.now[:danger] = "登録に失敗しました。"
-   render :new
- end
+   @book = Book.new (book_params)
+   if @book.save
+   flash[:notice] = "successfully"
+   redirect_to book_path (@book.id)
+   else
+   @books = Book.all
+   render :index
+   end
  end
 
   def index
-    @book = Book.all
+    @books = Book.all
+    @book = Book.new
 
   end
 
   def show
     @book = Book.find (params[:id])
-end
+  end
 
   def edit
     @book = Book.find (params[:id])
+    flash[:notice] = "successfully"
   end
 
   def update
     book = Book.find (params[:id])
    if book.update (book_params)
-    flash[:success] = "タスクを修正しました。"
+    flash[:notice] = "successfully"
     redirect_to book_path (book.id)
-　　else
-     flash.now[:danger] = "更新に失敗しました。"
+   else
      render'book/edit'
    end
 
@@ -41,8 +46,11 @@ end
 
   def destroy
     book = Book.find (params[:id])
+    if book.user_id == current_user.id
     book.destroy
+    flash[:notice] = "successfully"
     redirect_to '/books'
+    end
   end
 
   private
@@ -50,4 +58,5 @@ end
   def book_params
     params.require(:book).permit(:title,:body)
   end
+
 end
