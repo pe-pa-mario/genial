@@ -44,13 +44,11 @@ class BooksController < ApplicationController
 
   end
 
+
   def destroy
-    book = Book.find (params[:id])
-    if book.user_id == current_user.id
-    book.destroy
-    flash[:notice] = "successfully"
-    redirect_to '/books'
-    end
+    @book = Book.find(params[:id])
+    @book.destroy
+    redirect_to books_path
   end
 
   private
