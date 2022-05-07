@@ -11,8 +11,8 @@
 
  <% end %>
 
-<%= link_to "Show", book_path(@book.id) %>
-<%= link_to "Back", new_book_path(@book.id) %>
+<%= link_to "Show", book_path(@book) %>
+<%= link_to "Back", books_path %>
 
 <% if flash[:notice] %>
  <p id="notice">
@@ -20,9 +20,12 @@
  </p>
  <% end %>
 
+<% if @book.errors.any? %>
+  <%= @book.errors.count %>errors prohibited this book from being saved:
 
-<% @book.errors.full_messages.each do |message| %>
-<div class="form-error">
-  <%= message %>
-</div>
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
 <% end %>

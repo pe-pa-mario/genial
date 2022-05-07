@@ -1,3 +1,15 @@
+<% if flash[:notice] %>
+ <p id="notice">
+   <%= flash[:notice] %>
+ </p>
+ <% end %>
+
+<% @book.errors.full_messages.each do |message| %>
+<div class="form-error">
+  <%= message %>
+</div>
+<% end %>
+
 <h2>Title</h2>
 <P><%= @book.title %></P>
 
